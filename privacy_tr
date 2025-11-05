@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gizlilik Politikası – Kings and Castles</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 2rem; color: #222; background: #fafafa; line-height: 1.6; }
+    h1, h2 { color: #444; }
+    a { color: #1565c0; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { margin-top: 3rem; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Gizlilik Politikası – Kings and Castles (Zeka Games)</h1>
+  <p><strong>Veri işleme sorumlusu:</strong><br>
+  Onur Basibüyük – Zeka Games<br>
+  Rheine, Almanya<br>
+  E-posta: <a href="mailto:basi.onur@gmail.com">basi.onur@gmail.com</a></p>
+
+  <h2>1. Uygulamada veri toplama</h2>
+  <p><em>“Kings and Castles”</em> uygulaması, sizin açık izniniz olmadan kişisel veri toplamaz.
+  Yalnızca uygulamanın çalışması ve iyileştirilmesi için gerekli teknik veriler toplanır
+  (ör. cihaz kimliği, dil ayarları, uygulama sürümü).</p>
+
+  <h2>2. Firebase Hizmetleri (Google LLC)</h2>
+  <p>Bu uygulama, anonim kullanım istatistikleri toplamak ve oyun ilerlemesini kaydetmek için Firebase Analytics ve
+  Firebase Realtime Database kullanır.  
+  İsimler, e-posta adresleri veya kişisel veriler işlenmez.<br>
+  Firebase gizlilik politikası: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
+
+  <h2>3. AdMob Reklamları (Google LLC)</h2>
+  <p>Uygulama, Google AdMob aracılığıyla reklam gösterir. Google, kişiselleştirilmiş veya kişisel olmayan reklamlar sunmak için
+  cihaz bilgilerini kullanabilir.<br>
+  Daha fazla bilgi: <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">https://support.google.com/admob/answer/6128543</a></p>
+
+  <footer>Son güncelleme: Kasım 2025<br>© 2025 Zeka Games – Tüm hakları saklıdır.</footer>
+</body>
+</html>
