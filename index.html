@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeka Games – Legal Information</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 2rem;
+      color: #222;
+      background-color: #fafafa;
+      line-height: 1.6;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      font-size: 1.8em;
+      margin-bottom: 0.5em;
+    }
+    h2 {
+      color: #444;
+      margin-top: 2em;
+    }
+    a {
+      display: inline-block;
+      margin: 0.4em;
+      padding: 0.6em 1.2em;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      background-color: #1565c0;
+      transition: background 0.2s ease;
+    }
+    a:hover {
+      background-color: #0d47a1;
+    }
+    footer {
+      margin-top: 3em;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const lang = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+      const links = {
+        de: { privacy: "privacy.html", impressum: "impressum.html" },
+        en: { privacy: "privacy_en.html", impressum: "impressum_en.html" },
+        tr: { privacy: "privacy_tr.html", impressum: "impressum_en.html" } // TR -> EN for legal notice fallback
+      };
+      let locale = "en";
+      if (lang.startsWith("de")) locale = "de";
+      else if (lang.startsWith("tr")) locale = "tr";
+      window._locale = locale; // store for later access
+      document.getElementById("privacy-link").href = links[locale].privacy;
+      document.getElementById("impressum-link").href = links[locale].impressum;
+    });
+  </script>
+</head>
+<body>
+  <h1>Zeka Games – Legal Information</h1>
+  <p>Welcome to the legal information page for our mobile games.</p>
+
+  <h2>📜 Legal Documents</h2>
+  <a id="privacy-link" href="privacy_en.html">Privacy Policy</a>
+  <a id="impressum-link" href="impressum_en.html">Impressum / Legal Notice</a>
+
+  <h2>📱 Developer Contact</h2>
+  <p>
+    <strong>Onur Basibüyük – Zeka Games</strong><br>
+    Rheine, Germany<br>
+    E-Mail: <a href="mailto:basi.onur@gmail.com">basi.onur@gmail.com</a>
+  </p>
+
+  <footer>
+    Letzte Aktualisierung / Last updated: November 2025<br>
+    © 2025 Zeka Games – Alle Rechte vorbehalten / All rights reserved
+  </footer>
+</body>
+</html>
