@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy – Kings and Castles</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 2rem; color: #222; background: #fafafa; line-height: 1.6; }
+    h1, h2 { color: #444; }
+    a { color: #1565c0; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { margin-top: 3rem; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy – Kings and Castles (Zeka Games)</h1>
+  <p><strong>Responsible Entity:</strong><br>
+  Onur Basibüyük – Zeka Games<br>
+  Rheine, Germany<br>
+  E-mail: <a href="mailto:basi.onur@gmail.com">basi.onur@gmail.com</a></p>
+
+  <h2>1. Data Collection in the App</h2>
+  <p>The app <em>“Kings and Castles”</em> does not collect any personal data without your consent.
+  Only technical data necessary for the operation and improvement of the app are collected
+  (e.g., device ID, language settings, app version).</p>
+
+  <h2>2. Firebase Services (Google LLC)</h2>
+  <p>This app uses Firebase Analytics and Firebase Realtime Database to collect anonymous statistics and save game progress.
+  No names, e-mail addresses, or personally identifiable data are processed.<br>
+  Firebase privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
+
+  <h2>3. AdMob Advertising (Google LLC)</h2>
+  <p>The app displays ads via Google AdMob. Google may use device data (e.g. advertising ID)
+  to serve personalized or non-personalized ads.<br>
+  More info: <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">https://support.google.com/admob/answer/6128543</a></p>
+
+  <h2>4. Google Sign-In</h2>
+  <p>If you log in using your Google account, your name, email, and profile picture are only used for authentication
+  and synchronization. This data is not shared with third parties and can be deleted anytime.</p>
+
+  <footer>Last updated: November 2025<br>© 2025 Zeka Games – All rights reserved.</footer>
+</body>
+</html>
