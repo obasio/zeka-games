@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Funport - EULA</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --bg2: #121722;
+      --card: #171b22;
+      --text: #e8edf3;
+      --muted: #9aa6b2;
+      --accent: #59c7ff;
+      --border: #263041;
+      --btn: #1c2330;
+      --btn-active: #2a3a52;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    main {
+      max-width: 960px;
+      margin: 24px auto;
+      padding: 0 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .lang-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: linear-gradient(180deg, rgba(23, 27, 34, 0.98), rgba(23, 27, 34, 0.95));
+    }
+    .lang-btn {
+      border: 1px solid var(--border);
+      background: var(--btn);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-btn[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: var(--btn-active);
+      box-shadow: 0 0 0 1px rgba(89, 199, 255, 0.25) inset;
+    }
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .page-link {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: var(--btn);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 14px;
+      line-height: 1;
+    }
+    .page-link.active {
+      border-color: var(--accent);
+      background: var(--btn-active);
+      box-shadow: 0 0 0 1px rgba(89, 199, 255, 0.25) inset;
+    }
+    h1, h2 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin-top: 24px;
+      font-size: 1.05rem;
+    }
+    p {
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card">
+      <nav id="langBar" class="lang-bar" aria-label="Language selector"></nav>
+      <nav class="page-nav" aria-label="Page navigation">
+        <a id="navHome" class="page-link" href="index.html"></a>
+        <a id="navPrivacy" class="page-link" href="privacy.html"></a>
+        <a id="navImpressum" class="page-link" href="impressum.html"></a>
+        <a id="navEula" class="page-link active" href="eula.html"></a>
+        <a id="navDelete" class="page-link" href="delete_account.html"></a>
+      </nav>
+      <article id="eulaContent"></article>
+    </section>
+  </main>
+
+  <script>
+    const PRIVACY_URL = "https://obasio.github.io/zeka-games/";
+    const STORAGE_KEY = "zeka_eula_lang";
+
+    const LANGS = [
+      { code: "de", label: "Deutsch", dir: "ltr" },
+      { code: "en", label: "English", dir: "ltr" },
+      { code: "es", label: "Español", dir: "ltr" },
+      { code: "fr", label: "Français", dir: "ltr" },
+      { code: "it", label: "Italiano", dir: "ltr" },
+      { code: "pt", label: "Português", dir: "ltr" },
+      { code: "ru", label: "Русский", dir: "ltr" },
+      { code: "zh", label: "中文", dir: "ltr" },
+      { code: "ja", label: "日本語", dir: "ltr" },
+      { code: "ko", label: "한국어", dir: "ltr" },
+      { code: "tr", label: "Türkçe", dir: "ltr" },
+      { code: "ar", label: "العربية", dir: "rtl" }
+    ];
+    const NAV_LABELS = {
+      de: { home: "Start", privacy: "Datenschutzerklaerung", impressum: "Impressum", eula: "EULA / Nutzungsbedingungen", del: "Daten loeschen" },
+      en: { home: "Home", privacy: "Privacy Policy", impressum: "Legal Notice", eula: "EULA / Terms", del: "Delete Account Data" },
+      tr: { home: "Ana Sayfa", privacy: "Gizlilik Politikasi", impressum: "Yasal Bildirim", eula: "EULA / Kullanim Kosullari", del: "Veri Silme" }
+    };
+
+    const EULA = {
+      de: {
+        title: "End User License Agreement (EULA)",
+        provider: "Anbieter",
+        effective: "Gueltig ab",
+        date: "1. Maerz 2026",
+        privacy_link: "Impressum & Datenschutz",
+        sections: [
+          { h: "1. Geltungsbereich", p: "Diese EULA regelt die Nutzung der mobilen Apps und Spiele von Funport. Mit Installation oder Nutzung der App stimmen Sie diesen Bedingungen zu." },
+          { h: "2. Lizenz", p: "Sie erhalten eine einfache, nicht exklusive, nicht uebertragbare und widerrufliche Lizenz zur privaten Nutzung auf kompatiblen Geraeten." },
+          { h: "3. Nutzungsbeschraenkungen", p: "Reverse Engineering, Dekompilieren, Manipulation von Spielstaenden/Score/Spielwirtschaft sowie rechtswidrige Nutzung sind untersagt." },
+          { h: "4. Konten, Cloud und Online-Funktionen", p: "Einzelne Funktionen koennen Internetzugang und Dienste Dritter voraussetzen. Verfuegbarkeit und Umfang koennen sich aendern." },
+          { h: "5. In-App-Kaeufe und virtuelle Gueter", p: "Virtuelle Gueter, Waehrungen, Tipps und Vorteile sind nicht uebertragbar und haben ausserhalb der App keinen Geldwert." },
+          { h: "6. Updates und Aenderungen", p: "Funport darf Inhalte, Features, Balancing und diese EULA jederzeit anpassen und aktualisieren." },
+          { h: "7. Geistiges Eigentum", p: "Rechte an App, Code, Design, Marken, Texten, Audio und Grafiken verbleiben bei Funport bzw. den jeweiligen Rechteinhabern." },
+          { h: "8. Gewaehrleistung und Haftung", p: "Die App wird im gesetzlich zulaessigen Umfang \"wie besehen\" bereitgestellt. Haftung besteht nur im gesetzlich zwingenden Rahmen." },
+          { h: "9. Laufzeit und Beendigung", p: "Die Lizenz gilt bis zur Beendigung. Bei Verstoessen gegen diese EULA kann die Nutzungslizenz sofort entzogen werden." },
+          { h: "10. Datenschutz und Kontakt", p: "Informationen zur Datenverarbeitung finden Sie hier: {{privacy_link}}." },
+          { h: "11. Schlussbestimmungen", p: "Es gilt das zulaessige Recht am Sitz des Anbieters. Unwirksame Klauseln beruehren die Wirksamkeit der uebrigen Bestimmungen nicht." }
+        ]
+      },
+      en: {
+        title: "End User License Agreement (EULA)",
+        provider: "Provider",
+        effective: "Effective date",
+        date: "March 1, 2026",
+        privacy_link: "Imprint & Privacy Policy",
+        sections: [
+          { h: "1. Scope", p: "This EULA governs the use of Funport mobile apps and games. By installing or using the app, you agree to these terms." },
+          { h: "2. License", p: "You receive a personal, non-exclusive, non-transferable, revocable license to use the app privately on compatible devices." },
+          { h: "3. Restrictions", p: "Reverse engineering, decompiling, save/score/economy manipulation, and unlawful or abusive use are prohibited." },
+          { h: "4. Accounts, Cloud, and Online Features", p: "Some features may require internet access and third-party services. Availability and scope may change." },
+          { h: "5. In-App Purchases and Virtual Goods", p: "Virtual goods, currencies, hints, and benefits are non-transferable and have no monetary value outside the app." },
+          { h: "6. Updates and Changes", p: "Funport may modify content, features, balancing, and this EULA at any time." },
+          { h: "7. Intellectual Property", p: "Rights to the app, code, design, trademarks, texts, audio, and graphics remain with Funport or the respective rights holders." },
+          { h: "8. Warranty and Liability", p: "To the extent permitted by law, the app is provided \"as is\". Liability exists only where legally mandatory." },
+          { h: "9. Term and Termination", p: "The license is valid until termination. Violations of this EULA may result in immediate revocation." },
+          { h: "10. Privacy and Contact", p: "Information about data processing is available here: {{privacy_link}}." },
+          { h: "11. Final Provisions", p: "Applicable law is the law at the provider's seat where legally permitted. Invalid clauses do not affect the remaining provisions." }
+        ]
+      },
+      es: {
+        title: "Acuerdo de licencia de usuario final (EULA)",
+        provider: "Proveedor",
+        effective: "Vigente desde",
+        date: "1 de marzo de 2026",
+        privacy_link: "Aviso legal y politica de privacidad",
+        sections: [
+          { h: "1. Alcance", p: "Este EULA regula el uso de las apps y juegos moviles de Funport. Al instalar o usar la app, aceptas estas condiciones." },
+          { h: "2. Licencia", p: "Recibes una licencia personal, no exclusiva, intransferible y revocable para uso privado en dispositivos compatibles." },
+          { h: "3. Restricciones", p: "Se prohibe la ingenieria inversa, descompilacion, manipulacion de guardados/puntuaciones/economia y el uso ilegal o abusivo." },
+          { h: "4. Cuentas, nube y funciones online", p: "Algunas funciones pueden requerir internet y servicios de terceros. La disponibilidad puede cambiar." },
+          { h: "5. Compras integradas y bienes virtuales", p: "Los bienes virtuales, monedas, pistas y ventajas no son transferibles ni tienen valor monetario fuera de la app." },
+          { h: "6. Actualizaciones y cambios", p: "Funport puede modificar contenidos, funciones, balance y este EULA en cualquier momento." },
+          { h: "7. Propiedad intelectual", p: "Los derechos sobre app, codigo, diseno, marcas, textos, audio y graficos pertenecen a Funport o a sus titulares." },
+          { h: "8. Garantia y responsabilidad", p: "En la medida permitida por ley, la app se ofrece \"tal cual\". Solo existe responsabilidad cuando la ley lo exige." },
+          { h: "9. Duracion y terminacion", p: "La licencia es valida hasta su terminacion. El incumplimiento de este EULA puede causar revocacion inmediata." },
+          { h: "10. Privacidad y contacto", p: "La informacion sobre tratamiento de datos esta disponible aqui: {{privacy_link}}." },
+          { h: "11. Disposiciones finales", p: "Se aplica la ley del domicilio del proveedor cuando sea legalmente posible. La invalidez de una clausula no afecta a las demas." }
+        ]
+      },
+      fr: {
+        title: "Contrat de licence utilisateur final (EULA)",
+        provider: "Fournisseur",
+        effective: "En vigueur depuis",
+        date: "1 mars 2026",
+        privacy_link: "Mentions legales et politique de confidentialite",
+        sections: [
+          { h: "1. Champ d'application", p: "Cette EULA regit l'utilisation des apps et jeux mobiles de Funport. En installant ou utilisant l'app, vous acceptez ces conditions." },
+          { h: "2. Licence", p: "Vous recevez une licence personnelle, non exclusive, non transferable et revocable pour un usage prive sur appareils compatibles." },
+          { h: "3. Restrictions", p: "La retro-ingenierie, la decompilation, la manipulation des sauvegardes/scores/economie et l'usage illicite sont interdits." },
+          { h: "4. Comptes, cloud et fonctions en ligne", p: "Certaines fonctions peuvent exiger internet et des services tiers. Leur disponibilite peut changer." },
+          { h: "5. Achats integres et biens virtuels", p: "Les biens virtuels, monnaies, indices et avantages sont non transferables et sans valeur monetaire hors de l'app." },
+          { h: "6. Mises a jour et modifications", p: "Funport peut modifier le contenu, les fonctions, l'equilibrage et cette EULA a tout moment." },
+          { h: "7. Propriete intellectuelle", p: "Les droits sur l'app, le code, le design, les marques, les textes, l'audio et les graphismes appartiennent a Funport ou aux ayants droit." },
+          { h: "8. Garantie et responsabilite", p: "Dans la limite legale, l'app est fournie \"en l'etat\". La responsabilite n'existe que lorsqu'elle est legalement obligatoire." },
+          { h: "9. Duree et resiliation", p: "La licence est valable jusqu'a resiliation. La violation de cette EULA peut entrainer une revocation immediate." },
+          { h: "10. Confidentialite et contact", p: "Les informations sur le traitement des donnees sont disponibles ici: {{privacy_link}}." },
+          { h: "11. Dispositions finales", p: "Le droit applicable est celui du siege du fournisseur, dans la mesure permise par la loi. Une clause invalide n'affecte pas les autres." }
+        ]
+      },
+      it: {
+        title: "Contratto di licenza con l'utente finale (EULA)",
+        provider: "Fornitore",
+        effective: "Valida dal",
+        date: "1 marzo 2026",
+        privacy_link: "Note legali e informativa privacy",
+        sections: [
+          { h: "1. Ambito", p: "Questa EULA regola l'uso delle app e dei giochi mobili di Funport. Installando o usando l'app accetti questi termini." },
+          { h: "2. Licenza", p: "Ricevi una licenza personale, non esclusiva, non trasferibile e revocabile per uso privato su dispositivi compatibili." },
+          { h: "3. Restrizioni", p: "Sono vietati reverse engineering, decompilazione, manipolazione di salvataggi/punteggi/economia e uso illecito o abusivo." },
+          { h: "4. Account, cloud e funzioni online", p: "Alcune funzioni possono richiedere internet e servizi di terze parti. Disponibilita e ambito possono cambiare." },
+          { h: "5. Acquisti in-app e beni virtuali", p: "Beni virtuali, valute, suggerimenti e vantaggi non sono trasferibili e non hanno valore monetario fuori dall'app." },
+          { h: "6. Aggiornamenti e modifiche", p: "Funport puo modificare contenuti, funzioni, bilanciamento e questa EULA in qualsiasi momento." },
+          { h: "7. Proprieta intellettuale", p: "I diritti su app, codice, design, marchi, testi, audio e grafica restano a Funport o ai rispettivi titolari." },
+          { h: "8. Garanzia e responsabilita", p: "Nei limiti di legge, l'app e fornita \"cosi com'e\". La responsabilita esiste solo nei casi previsti dalla legge." },
+          { h: "9. Durata e cessazione", p: "La licenza e valida fino alla cessazione. Violazioni di questa EULA possono comportare revoca immediata." },
+          { h: "10. Privacy e contatti", p: "Le informazioni sul trattamento dei dati sono disponibili qui: {{privacy_link}}." },
+          { h: "11. Disposizioni finali", p: "Si applica la legge del luogo del fornitore, ove consentito. L'invalidita di una clausola non pregiudica le altre." }
+        ]
+      },
+      pt: {
+        title: "Contrato de Licenca do Usuario Final (EULA)",
+        provider: "Fornecedor",
+        effective: "Valido desde",
+        date: "1 de marco de 2026",
+        privacy_link: "Aviso legal e politica de privacidade",
+        sections: [
+          { h: "1. Escopo", p: "Este EULA regula o uso dos apps e jogos moveis da Funport. Ao instalar ou usar o app, voce concorda com estes termos." },
+          { h: "2. Licenca", p: "Voce recebe uma licenca pessoal, nao exclusiva, intransferivel e revogavel para uso privado em dispositivos compativeis." },
+          { h: "3. Restricoes", p: "E proibida engenharia reversa, descompilacao, manipulacao de saves/pontuacoes/economia e uso ilegal ou abusivo." },
+          { h: "4. Contas, nuvem e recursos online", p: "Alguns recursos podem exigir internet e servicos de terceiros. A disponibilidade pode mudar." },
+          { h: "5. Compras no app e bens virtuais", p: "Bens virtuais, moedas, dicas e beneficios nao sao transferiveis e nao possuem valor monetario fora do app." },
+          { h: "6. Atualizacoes e alteracoes", p: "A Funport pode alterar conteudo, recursos, balanceamento e este EULA a qualquer momento." },
+          { h: "7. Propriedade intelectual", p: "Direitos sobre app, codigo, design, marcas, textos, audio e graficos pertencem a Funport ou titulares correspondentes." },
+          { h: "8. Garantia e responsabilidade", p: "Na medida permitida por lei, o app e fornecido \"como esta\". Responsabilidade apenas quando exigida por lei." },
+          { h: "9. Prazo e rescisao", p: "A licenca vale ate rescisao. Violacoes deste EULA podem levar a revogacao imediata." },
+          { h: "10. Privacidade e contato", p: "Informacoes sobre tratamento de dados estao disponiveis aqui: {{privacy_link}}." },
+          { h: "11. Disposicoes finais", p: "Aplica-se a lei da sede do fornecedor, quando permitido. Clausula invalida nao afeta as demais." }
+        ]
+      },
+      ru: {
+        title: "Лицензионное соглашение конечного пользователя (EULA)",
+        provider: "Поставщик",
+        effective: "Действует с",
+        date: "1 марта 2026",
+        privacy_link: "Юридическая информация и политика конфиденциальности",
+        sections: [
+          { h: "1. Область действия", p: "Это EULA регулирует использование мобильных приложений и игр Funport. Установка или использование приложения означает согласие с условиями." },
+          { h: "2. Лицензия", p: "Вы получаете личную, неисключительную, непередаваемую и отзывную лицензию для частного использования на совместимых устройствах." },
+          { h: "3. Ограничения", p: "Запрещены реверс-инжиниринг, декомпиляция, манипуляция сохранениями/очками/экономикой и незаконное либо злоупотребляющее использование." },
+          { h: "4. Аккаунты, облако и онлайн-функции", p: "Некоторые функции могут требовать интернет и сторонние сервисы. Доступность и объем могут меняться." },
+          { h: "5. Встроенные покупки и виртуальные товары", p: "Виртуальные товары, валюты, подсказки и преимущества не передаются и не имеют денежной ценности вне приложения." },
+          { h: "6. Обновления и изменения", p: "Funport может в любое время изменять контент, функции, баланс и это EULA." },
+          { h: "7. Интеллектуальная собственность", p: "Права на приложение, код, дизайн, товарные знаки, тексты, аудио и графику принадлежат Funport или соответствующим правообладателям." },
+          { h: "8. Гарантия и ответственность", p: "В пределах закона приложение предоставляется \"как есть\". Ответственность возникает только в случаях, прямо предусмотренных законом." },
+          { h: "9. Срок и прекращение", p: "Лицензия действует до прекращения. Нарушение этого EULA может привести к немедленному отзыву лицензии." },
+          { h: "10. Конфиденциальность и контакты", p: "Информация об обработке данных доступна здесь: {{privacy_link}}." },
+          { h: "11. Заключительные положения", p: "Применяется право по месту нахождения поставщика, если это допустимо законом. Недействительность одного пункта не влияет на остальные." }
+        ]
+      },
+      zh: {
+        title: "终端用户许可协议（EULA）",
+        provider: "提供方",
+        effective: "生效日期",
+        date: "2026年3月1日",
+        privacy_link: "法律信息与隐私政策",
+        sections: [
+          { h: "1. 适用范围", p: "本EULA适用于Funport移动应用和游戏的使用。安装或使用本应用即表示你同意本协议。"},
+          { h: "2. 许可", p: "你获得个人、非独占、不可转让、可撤销的许可，仅可在兼容设备上进行私人使用。"},
+          { h: "3. 使用限制", p: "禁止逆向工程、反编译、篡改存档/分数/经济系统，以及违法或滥用行为。"},
+          { h: "4. 账号、云端与在线功能", p: "部分功能可能需要网络和第三方服务，具体可用性和范围可能变更。"},
+          { h: "5. 应用内购买与虚拟物品", p: "虚拟物品、货币、提示和增益不可转让，且在应用外不具有货币价值。"},
+          { h: "6. 更新与变更", p: "Funport可随时修改内容、功能、平衡性及本EULA。"},
+          { h: "7. 知识产权", p: "应用、代码、设计、商标、文本、音频和图形的权利归Funport或相关权利人所有。"},
+          { h: "8. 质保与责任", p: "在法律允许范围内，应用按“现状”提供。仅在法律强制情形下承担责任。"},
+          { h: "9. 期限与终止", p: "许可在终止前持续有效。违反本EULA可能导致许可被立即撤销。"},
+          { h: "10. 隐私与联系", p: "关于数据处理的信息请见：{{privacy_link}}。"},
+          { h: "11. 最终条款", p: "在法律允许范围内适用提供方所在地法律。个别条款无效不影响其余条款。"}
+        ]
+      },
+      ja: {
+        title: "エンドユーザー使用許諾契約（EULA）",
+        provider: "提供者",
+        effective: "施行日",
+        date: "2026年3月1日",
+        privacy_link: "法的情報とプライバシーポリシー",
+        sections: [
+          { h: "1. 適用範囲", p: "本EULAは、Funportのモバイルアプリおよびゲームの利用に適用されます。インストールまたは利用により同意したものとみなされます。" },
+          { h: "2. ライセンス", p: "互換端末での私的利用のために、個人的・非独占・譲渡不可・取消可能なライセンスが付与されます。" },
+          { h: "3. 利用制限", p: "リバースエンジニアリング、逆コンパイル、セーブ/スコア/経済システム改ざん、違法・不正利用を禁止します。" },
+          { h: "4. アカウント・クラウド・オンライン機能", p: "一部機能はインターネットおよび第三者サービスを必要とする場合があり、提供内容は変更されることがあります。" },
+          { h: "5. アプリ内課金と仮想アイテム", p: "仮想アイテム、通貨、ヒント、特典は譲渡不可であり、アプリ外で金銭的価値を持ちません。" },
+          { h: "6. 更新と変更", p: "Funportはコンテンツ、機能、バランス、本EULAを随時変更できます。" },
+          { h: "7. 知的財産権", p: "アプリ、コード、デザイン、商標、テキスト、音声、画像の権利はFunportまたは権利者に帰属します。" },
+          { h: "8. 保証と責任", p: "法令で許される範囲で本アプリは「現状有姿」で提供されます。責任は法令上必須の場合に限られます。" },
+          { h: "9. 期間と終了", p: "ライセンスは終了まで有効です。本EULA違反時には直ちに取り消される場合があります。" },
+          { h: "10. プライバシーと連絡先", p: "データ処理に関する情報はこちら：{{privacy_link}}。" },
+          { h: "11. 最終条項", p: "法令で許される範囲で提供者所在地の法令を適用します。無効条項があっても他条項は有効です。" }
+        ]
+      },
+      ko: {
+        title: "최종 사용자 라이선스 계약(EULA)",
+        provider: "제공자",
+        effective: "시행일",
+        date: "2026년 3월 1일",
+        privacy_link: "법적 고지 및 개인정보처리방침",
+        sections: [
+          { h: "1. 적용 범위", p: "본 EULA는 Funport 모바일 앱과 게임의 이용에 적용됩니다. 앱 설치 또는 이용 시 본 약관에 동의한 것으로 간주됩니다." },
+          { h: "2. 라이선스", p: "호환 기기에서 개인 용도로 사용할 수 있는 개인적, 비독점적, 양도 불가, 철회 가능한 라이선스가 부여됩니다." },
+          { h: "3. 이용 제한", p: "리버스 엔지니어링, 디컴파일, 저장/점수/경제 시스템 조작, 불법 또는 남용 목적 사용은 금지됩니다." },
+          { h: "4. 계정, 클라우드, 온라인 기능", p: "일부 기능은 인터넷 및 제3자 서비스를 요구할 수 있으며, 제공 범위는 변경될 수 있습니다." },
+          { h: "5. 인앱 구매 및 가상 재화", p: "가상 재화, 통화, 힌트, 혜택은 양도할 수 없고 앱 외부에서 금전적 가치가 없습니다." },
+          { h: "6. 업데이트 및 변경", p: "Funport는 콘텐츠, 기능, 밸런스 및 본 EULA를 언제든지 변경할 수 있습니다." },
+          { h: "7. 지적 재산권", p: "앱, 코드, 디자인, 상표, 텍스트, 오디오, 그래픽의 권리는 Funport 또는 각 권리자에게 있습니다." },
+          { h: "8. 보증 및 책임", p: "법이 허용하는 범위에서 앱은 \"있는 그대로\" 제공되며, 책임은 법률상 필수 범위로 제한됩니다." },
+          { h: "9. 기간 및 종료", p: "라이선스는 종료 시까지 유효하며, 본 EULA 위반 시 즉시 철회될 수 있습니다." },
+          { h: "10. 개인정보 및 연락처", p: "데이터 처리 관련 정보는 여기에서 확인할 수 있습니다: {{privacy_link}}." },
+          { h: "11. 최종 조항", p: "법이 허용하는 범위에서 제공자 소재지 법을 적용하며, 일부 조항 무효 시 나머지 조항은 유효합니다." }
+        ]
+      },
+      tr: {
+        title: "Son Kullanici Lisans Sozlesmesi (EULA)",
+        provider: "Saglayici",
+        effective: "Gecerlilik tarihi",
+        date: "1 Mart 2026",
+        privacy_link: "Yasal bilgiler ve gizlilik politikasi",
+        sections: [
+          { h: "1. Kapsam", p: "Bu EULA, Funport mobil uygulama ve oyunlarinin kullanimini duzenler. Uygulamayi kurarak veya kullanarak bu kosullari kabul edersiniz." },
+          { h: "2. Lisans", p: "Uyumlu cihazlarda ozel kullanim icin kisisel, inhisarsiz, devredilemez ve geri alinabilir lisans verilir." },
+          { h: "3. Kisitlamalar", p: "Tersine muhendislik, dekompilasyon, kayit/skor/ekonomi manipule edilmesi ve yasa disi veya kotuye kullanim yasaktir." },
+          { h: "4. Hesaplar, bulut ve cevrimici ozellikler", p: "Bazi ozellikler internet ve ucuncu taraf hizmetleri gerektirebilir. Erisebilirlik ve kapsam degisebilir." },
+          { h: "5. Uygulama ici satin alimlar ve sanal ogeler", p: "Sanal ogeler, para birimleri, ipuclari ve avantajlar devredilemez ve uygulama disinda parasal deger tasimaz." },
+          { h: "6. Guncellemeler ve degisiklikler", p: "Funport icerik, ozellikler, dengeleme ve bu EULA uzerinde istedigi zaman degisiklik yapabilir." },
+          { h: "7. Fikri mulkiyet", p: "Uygulama, kod, tasarim, markalar, metin, ses ve grafikler uzerindeki haklar Funport veya ilgili hak sahiplerine aittir." },
+          { h: "8. Garanti ve sorumluluk", p: "Yasal sinirlar icinde uygulama \"oldugu gibi\" sunulur. Sorumluluk yalnizca kanunen zorunlu hallerde vardir." },
+          { h: "9. Sure ve fesih", p: "Lisans feshe kadar gecerlidir. Bu EULA ihlal edilirse lisans derhal geri alinabilir." },
+          { h: "10. Gizlilik ve iletisim", p: "Veri isleme bilgileri burada yer alir: {{privacy_link}}." },
+          { h: "11. Son hukumler", p: "Yasal olarak mumkun oldugu olcude saglayicinin yerlesim yeri hukuku uygulanir. Gecersiz bir madde digerlerini etkilemez." }
+        ]
+      },
+      ar: {
+        title: "اتفاقية ترخيص المستخدم النهائي (EULA)",
+        provider: "المزوّد",
+        effective: "تاريخ السريان",
+        date: "1 مارس 2026",
+        privacy_link: "البيانات القانونية وسياسة الخصوصية",
+        sections: [
+          { h: "1. نطاق التطبيق", p: "تنظم هذه الاتفاقية استخدام تطبيقات وألعاب Funport على الهاتف المحمول. تثبيت التطبيق أو استخدامه يعني موافقتك على الشروط." },
+          { h: "2. الترخيص", p: "تحصل على ترخيص شخصي وغير حصري وغير قابل للتحويل وقابل للإلغاء للاستخدام الخاص على الأجهزة المتوافقة." },
+          { h: "3. القيود", p: "يُحظر الهندسة العكسية أو فك التجميع أو التلاعب بالحفظ/النتائج/اقتصاد اللعبة أو أي استخدام غير قانوني أو مسيء." },
+          { h: "4. الحسابات والسحابة والميزات عبر الإنترنت", p: "قد تتطلب بعض الميزات اتصالاً بالإنترنت وخدمات طرف ثالث، وقد تتغير إتاحتها أو نطاقها." },
+          { h: "5. المشتريات داخل التطبيق والعناصر الافتراضية", p: "العناصر الافتراضية والعملات والتلميحات والمزايا غير قابلة للنقل ولا تملك قيمة مالية خارج التطبيق." },
+          { h: "6. التحديثات والتغييرات", p: "يجوز لـ Funport تعديل المحتوى والميزات والتوازن وهذه الاتفاقية في أي وقت." },
+          { h: "7. الملكية الفكرية", p: "تبقى حقوق التطبيق والشفرة والتصميم والعلامات والنصوص والصوت والرسومات لـ Funport أو أصحاب الحقوق المعنيين." },
+          { h: "8. الضمان والمسؤولية", p: "يتم توفير التطبيق \"كما هو\" ضمن الحدود التي يسمح بها القانون، وتقتصر المسؤولية على الحالات الإلزامية قانوناً." },
+          { h: "9. المدة والإنهاء", p: "يبقى الترخيص سارياً حتى إنهائه، وقد يتم سحبه فوراً عند مخالفة هذه الاتفاقية." },
+          { h: "10. الخصوصية والتواصل", p: "معلومات معالجة البيانات متاحة هنا: {{privacy_link}}." },
+          { h: "11. أحكام ختامية", p: "يطبق قانون مقرّ المزوّد بالقدر الذي يسمح به القانون، ولا يؤثر بطلان بند واحد على بقية البنود." }
+        ]
+      }
+    };
+
+    function getPreferredLanguage() {
+      const params = new URLSearchParams(window.location.search);
+      const queryLang = (params.get("lang") || "").toLowerCase();
+      if (EULA[queryLang]) return queryLang;
+
+      const stored = (localStorage.getItem(STORAGE_KEY) || "").toLowerCase();
+      if (EULA[stored]) return stored;
+
+      const browser = (navigator.language || "de").toLowerCase();
+      const base = browser.split("-")[0];
+      if (EULA[base]) return base;
+
+      return "de";
+    }
+
+    function makeParagraphWithLink(text, linkLabel) {
+      const p = document.createElement("p");
+      const marker = "{{privacy_link}}";
+      if (!text.includes(marker)) {
+        p.textContent = text;
+        return p;
+      }
+      const parts = text.split(marker);
+      p.append(document.createTextNode(parts[0] || ""));
+      const a = document.createElement("a");
+      a.href = PRIVACY_URL;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = linkLabel;
+      p.append(a);
+      p.append(document.createTextNode(parts.slice(1).join(marker)));
+      return p;
+    }
+
+    function renderLanguage(code) {
+      const data = EULA[code] || EULA.de;
+      const meta = LANGS.find((l) => l.code === code) || LANGS[0];
+
+      document.documentElement.lang = code;
+      document.documentElement.dir = meta.dir;
+      localStorage.setItem(STORAGE_KEY, code);
+
+      const root = document.getElementById("eulaContent");
+      root.innerHTML = "";
+
+      const h1 = document.createElement("h1");
+      h1.textContent = data.title;
+      root.appendChild(h1);
+
+      const m = document.createElement("p");
+      m.className = "muted";
+      m.innerHTML = `${data.provider}: Funport<br>${data.effective}: ${data.date}`;
+      root.appendChild(m);
+
+      data.sections.forEach((section) => {
+        const h2 = document.createElement("h2");
+        h2.textContent = section.h;
+        root.appendChild(h2);
+        root.appendChild(makeParagraphWithLink(section.p, data.privacy_link));
+      });
+      const nav = NAV_LABELS[code] || NAV_LABELS.en;
+      document.getElementById("navHome").textContent = nav.home;
+      document.getElementById("navPrivacy").textContent = nav.privacy;
+      document.getElementById("navImpressum").textContent = nav.impressum;
+      document.getElementById("navEula").textContent = nav.eula;
+      document.getElementById("navDelete").textContent = nav.del;
+      document.getElementById("navHome").href = `index.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navPrivacy").href = `privacy.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navImpressum").href = `impressum.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navEula").href = `eula.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navDelete").href = `delete_account.html?lang=${encodeURIComponent(code)}`;
+
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.dataset.lang === code ? "true" : "false");
+      });
+    }
+
+    function buildLanguageBar() {
+      const bar = document.getElementById("langBar");
+      LANGS.forEach((lang) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "lang-btn";
+        btn.dataset.lang = lang.code;
+        btn.setAttribute("aria-label", lang.label);
+        btn.title = lang.label;
+        btn.textContent = lang.label;
+        btn.addEventListener("click", () => renderLanguage(lang.code));
+        bar.appendChild(btn);
+      });
+    }
+
+    buildLanguageBar();
+    renderLanguage(getPreferredLanguage());
+  </script>
+</body>
+</html>
+
+

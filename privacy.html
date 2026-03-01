@@ -1,48 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Datenschutzerklärung – Kings and Castles</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Funport - Privacy Policy</title>
   <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 2rem; color: #222; background: #fafafa; line-height: 1.6; }
-    h1, h2 { color: #444; }
-    a { color: #1565c0; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    footer { margin-top: 3rem; font-size: 0.9em; color: #666; }
+    :root {
+      --bg: #0f1115;
+      --bg2: #121722;
+      --card: #171b22;
+      --text: #e8edf3;
+      --muted: #9aa6b2;
+      --accent: #59c7ff;
+      --border: #263041;
+      --btn: #1c2330;
+      --btn-active: #2a3a52;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    main {
+      max-width: 960px;
+      margin: 24px auto;
+      padding: 0 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .lang-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .lang-btn {
+      border: 1px solid var(--border);
+      background: var(--btn);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .lang-btn[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: var(--btn-active);
+      box-shadow: 0 0 0 1px rgba(89, 199, 255, 0.25) inset;
+    }
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .page-link {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: var(--btn);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 14px;
+      line-height: 1;
+    }
+    .page-link.active {
+      border-color: var(--accent);
+      background: var(--btn-active);
+      box-shadow: 0 0 0 1px rgba(89, 199, 255, 0.25) inset;
+    }
+    h1, h2 {
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    p {
+      line-height: 1.55;
+      margin-top: 8px;
+    }
+    a {
+      color: var(--accent);
+    }
+    .muted {
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
-  <h1>Datenschutzerklärung – Kings and Castles (Zeka Games)</h1>
-  <p><strong>Verantwortlich für die Datenverarbeitung:</strong><br>
-  Onur Basibüyük – Zeka Games<br>
-  Rheine, Deutschland<br>
-  E-Mail: <a href="mailto:basi.onur@gmail.com">basi.onur@gmail.com</a></p>
+  <main>
+    <section class="card">
+      <nav id="langBar" class="lang-bar" aria-label="Language selector"></nav>
+      <nav class="page-nav" aria-label="Page navigation">
+        <a id="navHome" class="page-link" href="index.html"></a>
+        <a id="navPrivacy" class="page-link active" href="privacy.html"></a>
+        <a id="navImpressum" class="page-link" href="impressum.html"></a>
+        <a id="navEula" class="page-link" href="eula.html"></a>
+        <a id="navDelete" class="page-link" href="delete_account.html"></a>
+      </nav>
+      <article id="content"></article>
+    </section>
+  </main>
 
-  <h2>1. Datenerfassung in der App</h2>
-  <p>Die App <em>„Kings and Castles“</em> erhebt keine personenbezogenen Daten ohne Ihre Zustimmung.
-  Es werden ausschließlich technische Daten erfasst, die für den Betrieb und die Verbesserung der App notwendig sind
-  (z.&nbsp;B. Geräte-ID, Spracheinstellungen, App-Version).</p>
+  <script>
+    const STORAGE_KEY = "funport_legal_lang";
+    const LANGS = [
+      { code: "de", label: "Deutsch", dir: "ltr" },
+      { code: "en", label: "English", dir: "ltr" },
+      { code: "es", label: "Español", dir: "ltr" },
+      { code: "fr", label: "Français", dir: "ltr" },
+      { code: "it", label: "Italiano", dir: "ltr" },
+      { code: "pt", label: "Português", dir: "ltr" },
+      { code: "ru", label: "Русский", dir: "ltr" },
+      { code: "zh", label: "中文", dir: "ltr" },
+      { code: "ja", label: "日本語", dir: "ltr" },
+      { code: "ko", label: "한국어", dir: "ltr" },
+      { code: "tr", label: "Türkçe", dir: "ltr" },
+      { code: "ar", label: "العربية", dir: "rtl" }
+    ];
+    const DATA = {
+      de: {
+        title: "Datenschutzerklaerung - Funport",
+        home: "Start",
+        privacy: "Datenschutzerklaerung",
+        impressum: "Impressum",
+        eula: "EULA / Nutzungsbedingungen",
+        del: "Daten loeschen",
+        intro: "<strong>Verantwortlich:</strong><br>Onur Basibüyük - Funport<br>Rheine, Deutschland<br>E-Mail: <a href=\"mailto:basi.onur@gmail.com\">basi.onur@gmail.com</a>",
+        s1h: "1. Datenerfassung in der App",
+        s1: "Die Funport-Apps erheben keine personenbezogenen Daten ohne Einwilligung. Erfasst werden nur technische Daten fuer Betrieb und Stabilitaet (z. B. Geraete-ID, Sprache, App-Version).",
+        s2h: "2. Firebase (Google LLC)",
+        s2: "Zur anonymen Statistik und Speicherung von Spielstaenden koennen Firebase Analytics und Realtime Database genutzt werden. Datenschutz: https://policies.google.com/privacy",
+        s3h: "3. AdMob (Google LLC)",
+        s3: "Fuer Werbung kann Google AdMob eingesetzt werden. Dabei koennen geraetebezogene Informationen verwendet werden. Infos: https://support.google.com/admob/answer/6128543",
+        s4h: "4. Google Sign-In",
+        s4: "Bei Google-Login werden Name, E-Mail und Profilbild nur fuer Anmeldung und Synchronisation des Spielkontos genutzt.",
+        s5h: "5. Rechte der Nutzer",
+        s5: "Sie koennen Auskunft, Berichtigung oder Loeschung Ihrer Daten verlangen. Kontakt: basi.onur@gmail.com",
+        foot: "Letzte Aktualisierung: Maerz 2026"
+      },
+      en: {
+        title: "Privacy Policy - Funport",
+        home: "Home",
+        privacy: "Privacy Policy",
+        impressum: "Legal Notice",
+        eula: "EULA / Terms",
+        del: "Delete Account Data",
+        intro: "<strong>Responsible Entity:</strong><br>Onur Basibüyük - Funport<br>Rheine, Germany<br>E-mail: <a href=\"mailto:basi.onur@gmail.com\">basi.onur@gmail.com</a>",
+        s1h: "1. Data Collection",
+        s1: "Funport apps do not collect personal data without consent. Only technical data required for operation and stability may be processed (for example device ID, language, app version).",
+        s2h: "2. Firebase (Google LLC)",
+        s2: "Firebase Analytics and Realtime Database may be used for anonymous usage metrics and game progress storage. Privacy policy: https://policies.google.com/privacy",
+        s3h: "3. AdMob (Google LLC)",
+        s3: "Google AdMob may be used to show ads. Device-related information may be processed for ad delivery. More info: https://support.google.com/admob/answer/6128543",
+        s4h: "4. Google Sign-In",
+        s4: "If you sign in with Google, your name, e-mail, and profile image are used only for authentication and account synchronization.",
+        s5h: "5. User Rights",
+        s5: "You may request information, correction, or deletion of your stored data. Contact: basi.onur@gmail.com",
+        foot: "Last updated: March 2026"
+      },
+      tr: {
+        title: "Gizlilik Politikasi - Funport",
+        home: "Ana Sayfa",
+        privacy: "Gizlilik Politikasi",
+        impressum: "Yasal Bildirim",
+        eula: "EULA / Kullanim Kosullari",
+        del: "Veri Silme",
+        intro: "<strong>Veri isleme sorumlusu:</strong><br>Onur Basibüyük - Funport<br>Rheine, Almanya<br>E-posta: <a href=\"mailto:basi.onur@gmail.com\">basi.onur@gmail.com</a>",
+        s1h: "1. Uygulamada veri toplama",
+        s1: "Funport uygulamalari acik riza olmadan kisisel veri toplamaz. Yalnizca calisma ve kararlilik icin gerekli teknik veriler islenebilir (or. cihaz kimligi, dil, uygulama surumu).",
+        s2h: "2. Firebase (Google LLC)",
+        s2: "Anonim kullanim istatistikleri ve oyun ilerlemesi icin Firebase Analytics ve Realtime Database kullanilabilir. Gizlilik: https://policies.google.com/privacy",
+        s3h: "3. AdMob (Google LLC)",
+        s3: "Reklamlar icin Google AdMob kullanilabilir. Reklam gosterimi icin cihaza ait bilgiler islenebilir. Bilgi: https://support.google.com/admob/answer/6128543",
+        s4h: "4. Google Girisi",
+        s4: "Google ile giris yapildiginda ad, e-posta ve profil gorseli sadece kimlik dogrulama ve senkronizasyon amaciyla kullanilir.",
+        s5h: "5. Kullanici haklari",
+        s5: "Kayitli verileriniz icin bilgi, duzeltme veya silme talep edebilirsiniz. Iletisim: basi.onur@gmail.com",
+        foot: "Son guncelleme: Mart 2026"
+      }
+    };
 
-  <h2>2. Firebase-Dienste (Google LLC)</h2>
-  <p>Diese App verwendet Firebase Analytics und Firebase Realtime Database, um anonyme Nutzungsstatistiken zu erfassen
-  und Spielfortschritte zu speichern. Es werden keine Namen, E-Mail-Adressen oder andere identifizierbare Daten gespeichert.<br>
-  Datenschutzerklärung von Firebase: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
+    function preferredLang() {
+      const q = new URLSearchParams(location.search).get("lang");
+      if (q) return q.toLowerCase();
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (s) return s.toLowerCase();
+      return (navigator.language || "en").toLowerCase().split("-")[0];
+    }
 
-  <h2>3. AdMob Werbung (Google LLC)</h2>
-  <p>Die App zeigt Werbung über Google AdMob. Google kann dabei gerätebezogene Informationen (z.&nbsp;B. Werbe-ID)
-  verwenden, um personalisierte oder nicht-personalisierte Anzeigen zu schalten.<br>
-  Weitere Informationen: <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">https://support.google.com/admob/answer/6128543</a></p>
+    function textWithLinks(raw) {
+      return raw
+        .replaceAll("https://policies.google.com/privacy", "<a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noopener\">https://policies.google.com/privacy</a>")
+        .replaceAll("https://support.google.com/admob/answer/6128543", "<a href=\"https://support.google.com/admob/answer/6128543\" target=\"_blank\" rel=\"noopener\">https://support.google.com/admob/answer/6128543</a>");
+    }
 
-  <h2>4. Google Anmeldung (Sign-In)</h2>
-  <p>Wenn Sie sich mit Ihrem Google-Konto anmelden, werden Name, E-Mail-Adresse und Profilbild ausschließlich zur Anmeldung
-  und Synchronisation Ihres Spielkontos verwendet. Diese Daten werden nicht an Dritte weitergegeben und können jederzeit gelöscht werden.</p>
+    function render(code) {
+      const m = LANGS.find((l) => l.code === code) || LANGS[1];
+      const t = DATA[code] || DATA.en;
+      localStorage.setItem(STORAGE_KEY, code);
+      document.documentElement.lang = code;
+      document.documentElement.dir = m.dir;
 
-  <h2>5. Rechte der Nutzer</h2>
-  <p>Sie haben das Recht, Auskunft über gespeicherte Daten zu erhalten, deren Berichtigung oder Löschung zu verlangen
-  sowie der Verarbeitung zu widersprechen.<br>
-  Kontakt: <a href="mailto:basi.onur@gmail.com">basi.onur@gmail.com</a></p>
+      document.getElementById("content").innerHTML = `
+        <h1>${t.title}</h1>
+        <p>${t.intro}</p>
+        <h2>${t.s1h}</h2><p>${textWithLinks(t.s1)}</p>
+        <h2>${t.s2h}</h2><p>${textWithLinks(t.s2)}</p>
+        <h2>${t.s3h}</h2><p>${textWithLinks(t.s3)}</p>
+        <h2>${t.s4h}</h2><p>${textWithLinks(t.s4)}</p>
+        <h2>${t.s5h}</h2><p>${textWithLinks(t.s5)}</p>
+        <p class="muted">${t.foot}</p>
+      `;
+      document.getElementById("navHome").textContent = t.home || DATA.en.home;
+      document.getElementById("navPrivacy").textContent = t.privacy || DATA.en.privacy;
+      document.getElementById("navImpressum").textContent = t.impressum || DATA.en.impressum;
+      document.getElementById("navEula").textContent = t.eula || DATA.en.eula;
+      document.getElementById("navDelete").textContent = t.del || DATA.en.del;
+      document.getElementById("navHome").href = `index.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navPrivacy").href = `privacy.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navImpressum").href = `impressum.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navEula").href = `eula.html?lang=${encodeURIComponent(code)}`;
+      document.getElementById("navDelete").href = `delete_account.html?lang=${encodeURIComponent(code)}`;
 
-  <footer>Letzte Aktualisierung: November 2025<br>© 2025 Zeka Games – Alle Rechte vorbehalten.</footer>
+      document.querySelectorAll(".lang-btn").forEach((b) => {
+        b.setAttribute("aria-pressed", b.dataset.lang === code ? "true" : "false");
+      });
+    }
+
+    function buildBar() {
+      const bar = document.getElementById("langBar");
+      for (const lang of LANGS) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "lang-btn";
+        b.dataset.lang = lang.code;
+        b.textContent = lang.label;
+        b.addEventListener("click", () => render(lang.code));
+        bar.appendChild(b);
+      }
+    }
+
+    buildBar();
+    render(preferredLang());
+  </script>
 </body>
 </html>
